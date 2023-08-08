@@ -39,7 +39,7 @@ def fetch_spacex_last_launch(launch_uuid: str = None, dir_name: str | None = Non
     for index, url in enumerate(get_latest_images(launch_uuid)):
         file_path = os.path.join(
             dir_name,
-            "spacex_{index}.{ext}".format(index=index, ext=get_file_extension(url)),
+            "spacex_{index}{ext}".format(index=index, ext=get_file_extension(url)),
         )
         download_file(url, file_path)
 

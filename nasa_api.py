@@ -20,7 +20,7 @@ def fetch_nasa_apod(count: int, dir_name: str | None = None):
     for index, apod in enumerate(response.json()):
         file_path = os.path.join(
             dir_name,
-            "nasa_apod_{index}.{ext}".format(
+            "nasa_apod_{index}{ext}".format(
                 index=index, ext=get_file_extension(apod.get("url"))
             ),
         )
@@ -49,7 +49,7 @@ def fetch_nasa_epic(dir_name: str | None = None):
         )
         file_path = os.path.join(
             dir_name,
-            "nasa_epic_{index}.{ext}".format(index=index, ext=get_file_extension(url)),
+            "nasa_epic_{index}{ext}".format(index=index, ext=get_file_extension(url)),
         )
         download_file(url, file_path, params={"api_key": os.environ["NASA_TOKEN"]})
 
