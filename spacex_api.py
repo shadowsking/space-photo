@@ -33,7 +33,7 @@ def get_latest_images(launch_uuid: str = None) -> list:
     return docs[-1]["links"]["flickr"]["original"]
 
 
-def fetch_spacex_last_launch(launch_uuid: str = None, dir_name: str | None = None):
+def fetch_spacex_last_launch(launch_uuid: str = None, dir_name: str = None):
     dir_name = dir_name or "images"
 
     for index, url in enumerate(get_latest_images(launch_uuid)):

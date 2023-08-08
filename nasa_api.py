@@ -8,7 +8,7 @@ import requests
 from file_helper import download_file, get_file_extension
 
 
-def fetch_nasa_apod(count: int, dir_name: str | None = None):
+def fetch_nasa_apod(count: int, dir_name: str = None):
     dir_name = dir_name or "images"
 
     response = requests.get(
@@ -27,7 +27,7 @@ def fetch_nasa_apod(count: int, dir_name: str | None = None):
         download_file(apod.get("url"), file_path)
 
 
-def fetch_nasa_epic(dir_name: str | None = None):
+def fetch_nasa_epic(dir_name: str = None):
     dir_name = dir_name or "images"
 
     response = requests.get(

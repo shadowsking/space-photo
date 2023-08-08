@@ -4,7 +4,7 @@ from urllib.parse import urlparse
 import requests
 
 
-def download_file(url: str, file_path: str, params: dict | None = None):
+def download_file(url: str, file_path: str, params: dict = None):
     response = requests.get(url, params=params)
     response.raise_for_status()
 
