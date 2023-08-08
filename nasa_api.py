@@ -58,9 +58,7 @@ if __name__ == "__main__":
     dotenv.load_dotenv()
 
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "-a", "--apod", type=bool, help="NASA apod photos", default=True
-    )
+    parser.add_argument("-a", "--apod", help="NASA apod photos", action="store_true")
     parser.add_argument(
         "-c",
         "--count",
@@ -74,8 +72,8 @@ if __name__ == "__main__":
     parser.add_argument(
         "-e",
         "--epic",
-        type=bool,
         help="NASA Epic photos",
+        action="store_true",
     )
 
     args = parser.parse_args()
