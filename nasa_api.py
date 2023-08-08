@@ -1,16 +1,19 @@
+import argparse
 import os
 from datetime import datetime
 
 import dotenv
 import requests
 
-from utils import download_image, get_file_extension
+from file_helper import download_file, get_file_extension
 
 
-def fetch_nasa_apod(count: int, dir_name: str = "images"):
+def fetch_nasa_apod(count: int, dir_name: str | None = None):
+    dir_name = dir_name or "images"
+
     response = requests.get(
         "https://api.nasa.gov/planetary/apod",
-        params={"api_key": os.environ["NASA_API_KEY"], "count": count},
+        params={"api_key": os.environ["NASA_TOKEN"], "count": count},
     )
     response.raise_for_status()
 
@@ -21,14 +24,16 @@ def fetch_nasa_apod(count: int, dir_name: str = "images"):
                 index=index, ext=get_file_extension(apod.get("url"))
             ),
         )
-        download_image(apod.get("url"), file_path)
+        download_file(apod.get("url"), file_path)
 
 
-def fetch_nasa_epic(dir_name: str = "images"):
+def fetch_nasa_epic(dir_name: str | None = None):
+    dir_name = dir_name or "images"
+
     response = requests.get(
         "https://api.nasa.gov/EPIC/api/natural/images",
         params={
-            "api_key": os.environ["NASA_API_KEY"],
+            "api_key": os.environ["NASA_TOKEN"],
         },
     )
     response.raise_for_status()
@@ -46,9 +51,36 @@ def fetch_nasa_epic(dir_name: str = "images"):
             dir_name,
             "nasa_epic_{index}.{ext}".format(index=index, ext=get_file_extension(url)),
         )
-        download_image(url, file_path, params={"api_key": os.environ["NASA_API_KEY"]})
+        download_file(url, file_path, params={"api_key": os.environ["NASA_TOKEN"]})
 
 
 if __name__ == "__main__":
     dotenv.load_dotenv()
-    fetch_nasa_apod(count=5, dir_name="apod_folder_images")
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "-a", "--apod", type=bool, help="NASA apod photos", default=True
+    )
+    parser.add_argument(
+        "-c",
+        "--count",
+        type=int,
+        help="NASA apod count",
+        default=5,
+    )
+    parser.add_argument(
+        "-d", "--dir_name", type=str, help="Directory path", default="images"
+    )
+    parser.add_argument(
+        "-e",
+        "--epic",
+        type=bool,
+        help="NASA Epic photos",
+    )
+
+    args = parser.parse_args()
+    if args.apod:
+        fetch_nasa_apod(count=args.count, dir_name=args.dir_name)
+
+    if args.epic:
+        fetch_nasa_epic(dir_name=args.dir_name)
