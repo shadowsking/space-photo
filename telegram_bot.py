@@ -27,7 +27,9 @@ def send_photos(bot: telegram.Bot, chat_id: str, dir_name: str, deley_seconds: i
 
 def run_bot():
     dotenv.load_dotenv()
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        description="Downloads images from SpaceX and NASA and sends to telegram channel."
+    )
     parser.add_argument(
         "-c",
         "--count",

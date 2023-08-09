@@ -50,7 +50,9 @@ def fetch_nasa_epic(token: str, dir_name: str):
 if __name__ == "__main__":
     dotenv.load_dotenv()
 
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        description="Downloads APOD and Epic images from the NASA"
+    )
     parser.add_argument(
         "-a", "--apod", help="Downloads APOD images", action="store_true"
     )
@@ -58,7 +60,7 @@ if __name__ == "__main__":
         "-c",
         "--count",
         type=int,
-        help="NASA apod count (default: 50)",
+        description="NASA apod count (default: 50)",
         default=50,
     )
     parser.add_argument(

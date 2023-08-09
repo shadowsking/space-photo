@@ -43,7 +43,9 @@ def fetch_spacex_last_launch(launch_uuid: str = None, dir_name: str = None):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        description="Downloads images from the last SpaceX launch."
+    )
     parser.add_argument(
         "-u",
         "--uuid",
