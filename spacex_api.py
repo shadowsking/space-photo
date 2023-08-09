@@ -9,14 +9,13 @@ from file_helper import download_file, get_file_extension
 def get_latest_launch(launch_uuid: str = None, has_images: bool = False) -> dict:
     payload = {
         "options": {"limit": 1, "sort": {"flight_number": "desc"}},
-        "query": {},
     }
 
+    query = payload.setdefault("query", {})
     if launch_uuid:
-        payload["query"].update({"id": {"$eq": launch_uuid}})
-
+        query["id"] = {"$eq": launch_uuid}
     if has_images:
-        payload["query"].update({"links.flickr.original": {"$ne": []}})
+        query["links.flickr.original"] = {"$ne": []}
 
     response = requests.post(
         "https://api.spacexdata.com/v5/launches/query", json=payload
@@ -34,12 +33,11 @@ def get_latest_images(launch_uuid: str = None) -> list:
 
 
 def fetch_spacex_last_launch(launch_uuid: str = None, dir_name: str = None):
-    dir_name = dir_name or "images"
-
     for index, url in enumerate(get_latest_images(launch_uuid)):
+        file_extension = get_file_extension(url)
         file_path = os.path.join(
             dir_name,
-            "spacex_{index}{ext}".format(index=index, ext=get_file_extension(url)),
+            "spacex_{index}{ext}".format(index=index, ext=file_extension),
         )
         download_file(url, file_path)
 
