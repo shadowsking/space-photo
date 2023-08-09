@@ -60,7 +60,7 @@ if __name__ == "__main__":
         "-c",
         "--count",
         type=int,
-        description="NASA apod count (default: 50)",
+        help="NASA apod count (default: 50)",
         default=50,
     )
     parser.add_argument(
